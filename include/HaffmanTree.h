@@ -1,7 +1,8 @@
 #include <vector>
 #include <queue>
 #include <cstdint>
-
+#include <string>
+#include <map>
 
 class HaffmanTree {
 private:
@@ -27,6 +28,7 @@ private:
 
     };
 
+    /* nodes comparator for priority_queue */
     class NodesComparator {
     public:
         bool operator () (Node*& a, Node*& b) {
@@ -35,11 +37,20 @@ private:
     };
 
 public:
-  
+
+    /* constructor */
     HaffmanTree();
 
+    /* Build Haffman tree */
     void buildTree(std::vector<size_t>& statistic);
 
+    /* Build dictionary from tree */
+    std::map<unsigned char, std::string> getDict();
+
 private:
+
+    /* Build dictionary from tree */
+    void getDict(Node* now, std::string code, std::map<unsigned char, std::string>& dictionary);
+
     Node* root;
 };

@@ -18,7 +18,7 @@ HaffmanTree::Node::Node(
     size_t priority
 ) : Node(byteValue, priority, nullptr, nullptr) {}
 
-HaffmanTree::HaffmanTree() : root(nullptr) { std::cout << "kkk"; }
+HaffmanTree::HaffmanTree() : root(nullptr) {  }
 
 void HaffmanTree::buildTree(std::vector<size_t>& statistic) {
 
@@ -46,4 +46,26 @@ void HaffmanTree::buildTree(std::vector<size_t>& statistic) {
     root = pq.top();
     pq.pop();
 
+}
+
+std::map<unsigned char, std::string> HaffmanTree::getDict() {
+    std::map<unsigned char, std::string> dictionary;
+    getDict(root, "", dictionary);
+    return dictionary;
+}
+
+void HaffmanTree::getDict(
+    Node* now,
+    std::string code,
+    std::map<unsigned char, std::string>& dictionary
+) {
+    if (now == nullptr) {
+        return;
+    }
+    if (now->byteValue != -1) {
+        dictionary[static_cast<unsigned char>(now->byteValue)] = code;
+    } else {
+        getDict(now->left, code + "0", dictionary);
+        getDict(now->right, code + "1", dictionary);
+    }
 }
