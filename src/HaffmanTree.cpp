@@ -56,7 +56,7 @@ std::map<unsigned char, std::string> HaffmanTree::getDict() {
 
 void HaffmanTree::getDict(
     Node* now,
-    std::string code,
+    const std::string& code,
     std::map<unsigned char, std::string>& dictionary
 ) {
     if (now == nullptr) {
@@ -74,7 +74,7 @@ unsigned char HaffmanTree::iterateSymbol(
     const std::vector<unsigned char> &bytes,
     size_t& i_bit
 ) {
-    iterateSymbol(root, bytes, i_bit);
+    return iterateSymbol(root, bytes, i_bit);
 }
 
 unsigned char HaffmanTree::iterateSymbol(
@@ -82,9 +82,9 @@ unsigned char HaffmanTree::iterateSymbol(
     const std::vector<unsigned char> &bytes,
     size_t& i_bit
 ) {
-    size_t i = i_bit / sizeof(unsigned char);
-    size_t j = i_bit % sizeof(unsigned char);
-    size_t mask = 1 << (j - 1);
+    size_t i = i_bit / (sizeof(unsigned char) * 8);
+    size_t j = i_bit % (sizeof(unsigned char) * 8);
+    size_t mask = 1 << (7 - j);
     ++i_bit;
     if (now->byteValue != -1) {
         return now->byteValue;

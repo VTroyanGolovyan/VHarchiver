@@ -57,7 +57,7 @@ public:
 private:
 
     /* Build dictionary from tree */
-    void getDict(Node* now, std::string code, std::map<unsigned char, std::string>& dictionary);
+    void getDict(Node* now, const std::string& code, std::map<unsigned char, std::string>& dictionary);
 
     unsigned char iterateSymbol(
         const Node* now,

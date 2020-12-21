@@ -26,16 +26,12 @@ int main(int argc, char** argv) {
         in.close();
 
         auto stats = getStats(bytes);
-
-        HaffmanTree* tree = new HaffmanTree();
+        std::cout << bytes.size();
+        auto* tree = new HaffmanTree();
         tree->buildTree(stats);
 
         auto dict = tree->getDict();
         delete tree;
-
-        for (int i = 0; i < 256; ++i) {
-            std::cout << (unsigned char)i << " " << stats[i] << std::endl;
-        }
 
         auto new_bytes = encodeBytes(stats, dict, bytes);
 
@@ -52,8 +48,9 @@ int main(int argc, char** argv) {
         auto bytes = readBytes(in);
         auto stats = decodeStats(bytes);
 
-        HaffmanTree* tree = new HaffmanTree();
+        auto* tree = new HaffmanTree();
         tree->buildTree(stats);
+
         auto decoded_bytes = decodeBytes(tree, bytes, stats[256]);
         delete tree;
 

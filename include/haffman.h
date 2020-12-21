@@ -19,7 +19,7 @@ std::vector<unsigned char> getEncodedBytes(std::vector<unsigned char>& rawBytes)
 void saveBytesToStream(std::ostream& in, std::vector<unsigned char>& bytes);
 
 /* get byte by string view */
-unsigned char getByte(std::string byte_str);
+unsigned char getByte(const std::string& byte_str);
 
 /* Encode bytes */
 std::vector<unsigned char> encodeBytes(

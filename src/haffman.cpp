@@ -13,6 +13,7 @@ std::vector<unsigned char> readBytes(std::istream& in) {
             result.push_back(byte);
         }
     }
+    result.pop_back();
     return result;
 }
 
@@ -44,11 +45,11 @@ std::vector<unsigned char> getEncodedBytes(std::vector<unsigned char>& rawBytes)
 
 void saveBytesToStream(std::ostream& out, std::vector<unsigned char>& bytes) {
     for (unsigned char byte : bytes) {
-        out << (char)byte;
+        out.put(byte);
     }
 }
 
-unsigned char getByte(std::string byte_str) {
+unsigned char getByte(const std::string& byte_str) {
     int i = 0;
     unsigned char result = 0;
     for (auto& ch : byte_str) {
@@ -94,14 +95,21 @@ std::vector<unsigned char> encodeBytes(
 
     std::vector<unsigned char> code_bytes;
     size_t bits_count = 0;
-
     for (auto& byte : bytes) {
         temp_result += dictionary[byte];
         bits_count += dictionary[byte].length();
         if (temp_result.length() >= 8) {
             code_bytes.push_back(getByte(temp_result.substr(0, 8)));
+            std::cout << temp_result.substr(0, 8);
             temp_result = temp_result.substr(8);
         }
+    }
+    if (temp_result.length() > 0) {
+        code_bytes.push_back(
+            getByte(
+                temp_result.substr(0, temp_result.length()) + std::string(8 - temp_result.length(), '0')
+            )
+        );
     }
     /* we need to know bits count */
     saveBytes(
@@ -109,7 +117,6 @@ std::vector<unsigned char> encodeBytes(
         &bits_count,
         sizeof(size_t)
     );
-    std::cout << bits_count << std::endl;
     /* bits */
     for (auto& byte : code_bytes) {
         new_bytes.push_back(byte);
@@ -125,9 +132,8 @@ std::vector<unsigned char> decodeBytes(
     size_t all_bits
 ) {
     std::vector<unsigned char> result;
-    size_t i = 256 * sizeof(size_t);
+    size_t i = 257 * sizeof(size_t) * 8;
     size_t end = i + all_bits;
-
     for (; i < end;) {
         unsigned char ch = tree->iterateSymbol(bytes, i);
         std::cout << ch;
