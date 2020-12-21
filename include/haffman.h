@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include <memory>
-
+#include "HaffmanTree.h"
 /* Read bytes from file */
 std::vector<unsigned char> readBytes(std::istream& in);
 
@@ -29,8 +29,7 @@ std::vector<unsigned char> encodeBytes(
 );
 
 /* Decode bytes */
-std::vector<unsigned char> encodeBytes(
-    std::vector<size_t>& stats,
-    std::map<unsigned char, std::string>& dictionary,
+std::vector<unsigned char> decodeBytes(
+    HaffmanTree*,
     std::vector<unsigned char>& bytes
 );

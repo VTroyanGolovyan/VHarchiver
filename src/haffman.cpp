@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include "haffman.h"
 
 std::vector<unsigned char> readBytes(std::istream& in) {
     std::vector<unsigned char> result;
@@ -86,7 +87,7 @@ std::vector<unsigned char> encodeBytes(
 ) {
 
     std::vector<unsigned char> new_bytes;
-
+    /* we need to build Haffman Tree again */
     saveStatistics(new_bytes, stats);
 
     std::string temp_result;
@@ -103,16 +104,40 @@ std::vector<unsigned char> encodeBytes(
         }
     }
 
+    /* we need to know bits count */
     saveBytes(
         new_bytes,
         &bits_count,
         sizeof(size_t)
     );
-
+    /* bits */
     for (auto& byte : code_bytes) {
         new_bytes.push_back(byte);
     }
 
     return new_bytes;
 
+}
+
+std::vector<unsigned char> decodeBytes(
+    HaffmanTree* tree,
+    std::vector<unsigned char>& bytes
+) {
+    std::vector<unsigned char> result;
+    size_t i = 256 * sizeof(size_t);
+    size_t all_bits = 0;
+    size_t end = i + sizeof(size_t);
+    for (; i < end; ++i) {
+        all_bits *= 256;
+        all_bits += bytes[i];
+    }
+
+    end = sizeof(unsigned char) * end + all_bits;
+
+    for (; i < all_bits;) {
+        unsigned char ch = tree->iterateSymbol(bytes, i);
+        std::cout << ch;
+        result.push_back(ch);
+    }
+    return result;
 }

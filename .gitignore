@@ -1,2 +1,4 @@
 /build/*
 !/build/.gitkeep
+/testing_dir/*
+!/testing_dir/test.txt

@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(Archiver)
+project(vh-compress)
 
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-add_executable(Archiver main.cpp)
+add_executable(vh-compress main.cpp)
 
 add_subdirectory(src)
-target_link_libraries(Archiver Haffman)
+target_link_libraries(vh-compress Haffman)
 
 install(
-    TARGETS Archiver
+    TARGETS vh-compress
     RUNTIME DESTINATION bin
 )

@@ -69,3 +69,29 @@ void HaffmanTree::getDict(
         getDict(now->right, code + "1", dictionary);
     }
 }
+
+unsigned char HaffmanTree::iterateSymbol(
+    std::vector<unsigned char> bytes,
+    size_t& i_bit
+) {
+    iterateSymbol(root, bytes, i_bit);
+}
+
+unsigned char HaffmanTree::iterateSymbol(
+    Node* now,
+    std::vector<unsigned char> bytes,
+    size_t& i_bit
+) {
+    size_t i = i_bit / sizeof(unsigned char);
+    size_t j = i_bit % sizeof(unsigned char);
+    size_t mask = 1 << j;
+    ++i_bit;
+    if (now->byteValue != -1) {
+        return now->byteValue;
+    }
+    if ((bytes[i] & mask) != mask) {
+        return iterateSymbol(now->left, bytes, i_bit);
+    } else {
+        return iterateSymbol(now->right, bytes, i_bit);
+    }
+}

@@ -9,6 +9,7 @@ private:
 
     class Node {
     public:
+
         int byteValue;
         size_t priority;
         Node* left;
@@ -47,10 +48,22 @@ public:
     /* Build dictionary from tree */
     std::map<unsigned char, std::string> getDict();
 
+    /* iter symbol */
+    unsigned char iterateSymbol(
+        std::vector<unsigned char> bytes,
+        size_t& i
+    );
+
 private:
 
     /* Build dictionary from tree */
     void getDict(Node* now, std::string code, std::map<unsigned char, std::string>& dictionary);
+
+    unsigned char iterateSymbol(
+        Node* now,
+        std::vector<unsigned char> bytes,
+        size_t& i
+    );
 
     Node* root;
 };
