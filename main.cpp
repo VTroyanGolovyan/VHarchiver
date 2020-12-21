@@ -8,8 +8,10 @@
 int main(int argc, char** argv) {
 
     if (argc <= 1) {
+
         std::cout << "Error, please use --encode/--decode flags." << std::endl;
         std::cout << "You can use --help for details." << std::endl;
+
     }
 
     std::string mode(argv[1]);
@@ -31,6 +33,10 @@ int main(int argc, char** argv) {
         auto dict = tree->getDict();
         delete tree;
 
+        for (int i = 0; i < 256; ++i) {
+            std::cout << (unsigned char)i << " " << stats[i] << std::endl;
+        }
+
         auto new_bytes = encodeBytes(stats, dict, bytes);
 
         std::ofstream out(file_to_save);
@@ -48,20 +54,25 @@ int main(int argc, char** argv) {
 
         HaffmanTree* tree = new HaffmanTree();
         tree->buildTree(stats);
-        auto decoded_bytes = decodeBytes(tree, bytes);
+        auto decoded_bytes = decodeBytes(tree, bytes, stats[256]);
         delete tree;
 
         std::ofstream out(file_to_save);
         saveBytesToStream(out, decoded_bytes);
         out.close();
+
     } else if (mode == "--help") {
+
         std::cout << "Compress file:" << std::endl;
         std::cout << "vh-compress --encode <source> <result>" << std::endl;
         std::cout << "Extract file:" << std::endl;
         std::cout << "vh-compress --decode <source> <result>" << std::endl;
+
     } else {
+
         std::cout << "Error, please use --encode/--decode flags." << std::endl;
         std::cout << "You can use --help for details." << std::endl;
+
     }
 
     return 0;

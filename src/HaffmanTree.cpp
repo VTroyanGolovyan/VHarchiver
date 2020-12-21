@@ -71,20 +71,20 @@ void HaffmanTree::getDict(
 }
 
 unsigned char HaffmanTree::iterateSymbol(
-    std::vector<unsigned char> bytes,
+    const std::vector<unsigned char> &bytes,
     size_t& i_bit
 ) {
     iterateSymbol(root, bytes, i_bit);
 }
 
 unsigned char HaffmanTree::iterateSymbol(
-    Node* now,
-    std::vector<unsigned char> bytes,
+    const Node* now,
+    const std::vector<unsigned char> &bytes,
     size_t& i_bit
 ) {
     size_t i = i_bit / sizeof(unsigned char);
     size_t j = i_bit % sizeof(unsigned char);
-    size_t mask = 1 << j;
+    size_t mask = 1 << (j - 1);
     ++i_bit;
     if (now->byteValue != -1) {
         return now->byteValue;

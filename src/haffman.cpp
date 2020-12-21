@@ -30,7 +30,7 @@ std::vector<size_t> decodeStats(std::vector<unsigned char>& bytes) {
 
     std::vector<size_t> stats;
 
-    for (size_t i = 0; i < 256; ++i) {
+    for (size_t i = 0; i < 257; ++i) {
         stats.push_back(*(reinterpret_cast<size_t*>(raw_data) + i));
     }
 
@@ -103,13 +103,13 @@ std::vector<unsigned char> encodeBytes(
             temp_result = temp_result.substr(8);
         }
     }
-
     /* we need to know bits count */
     saveBytes(
         new_bytes,
         &bits_count,
         sizeof(size_t)
     );
+    std::cout << bits_count << std::endl;
     /* bits */
     for (auto& byte : code_bytes) {
         new_bytes.push_back(byte);
@@ -121,23 +121,18 @@ std::vector<unsigned char> encodeBytes(
 
 std::vector<unsigned char> decodeBytes(
     HaffmanTree* tree,
-    std::vector<unsigned char>& bytes
+    std::vector<unsigned char>& bytes,
+    size_t all_bits
 ) {
     std::vector<unsigned char> result;
     size_t i = 256 * sizeof(size_t);
-    size_t all_bits = 0;
-    size_t end = i + sizeof(size_t);
-    for (; i < end; ++i) {
-        all_bits *= 256;
-        all_bits += bytes[i];
-    }
+    size_t end = i + all_bits;
 
-    end = sizeof(unsigned char) * end + all_bits;
-
-    for (; i < all_bits;) {
+    for (; i < end;) {
         unsigned char ch = tree->iterateSymbol(bytes, i);
         std::cout << ch;
         result.push_back(ch);
     }
+
     return result;
 }

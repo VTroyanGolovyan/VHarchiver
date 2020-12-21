@@ -50,7 +50,7 @@ public:
 
     /* iter symbol */
     unsigned char iterateSymbol(
-        std::vector<unsigned char> bytes,
+        const std::vector<unsigned char> &bytes,
         size_t& i
     );
 
@@ -60,8 +60,8 @@ private:
     void getDict(Node* now, std::string code, std::map<unsigned char, std::string>& dictionary);
 
     unsigned char iterateSymbol(
-        Node* now,
-        std::vector<unsigned char> bytes,
+        const Node* now,
+        const std::vector<unsigned char> &bytes,
         size_t& i
     );
 

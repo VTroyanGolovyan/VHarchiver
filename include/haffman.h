@@ -31,5 +31,6 @@ std::vector<unsigned char> encodeBytes(
 /* Decode bytes */
 std::vector<unsigned char> decodeBytes(
     HaffmanTree*,
-    std::vector<unsigned char>& bytes
+    std::vector<unsigned char>& bytes,
+    size_t all_bits
 );
