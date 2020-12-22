@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <memory>
 #include "haffman.h"
 
 std::vector<unsigned char> readBytes(std::istream& in) {
@@ -96,6 +95,7 @@ std::vector<unsigned char> encodeBytes(
     std::vector<unsigned char> code_bytes;
     size_t bits_count = 0;
     for (auto& byte : bytes) {
+        std::cout << (char)byte << " " << dictionary[byte] << std::endl;
         temp_result += dictionary[byte];
         bits_count += dictionary[byte].length();
         if (temp_result.length() >= 8) {
@@ -134,6 +134,7 @@ std::vector<unsigned char> decodeBytes(
     std::vector<unsigned char> result;
     size_t i = 257 * sizeof(size_t) * 8;
     size_t end = i + all_bits;
+    std::cout << i << " " << end << " " << all_bits << std::endl;
     for (; i < end;) {
         unsigned char ch = tree->iterateSymbol(bytes, i);
         std::cout << ch;

@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         in.close();
 
         auto stats = getStats(bytes);
-        std::cout << bytes.size();
+
         auto* tree = new HaffmanTree();
         tree->buildTree(stats);
 
@@ -47,9 +47,9 @@ int main(int argc, char** argv) {
         std::ifstream in(file_to_decode);
         auto bytes = readBytes(in);
         auto stats = decodeStats(bytes);
-
+        std::vector<size_t> r_stat(stats.begin(), stats.end() - 1);
         auto* tree = new HaffmanTree();
-        tree->buildTree(stats);
+        tree->buildTree(r_stat);
 
         auto decoded_bytes = decodeBytes(tree, bytes, stats[256]);
         delete tree;

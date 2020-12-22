@@ -34,7 +34,7 @@ void HaffmanTree::buildTree(std::vector<size_t>& statistic) {
         }
     }
 
-    while (pq.size() > 1) {
+    while (pq.size() != 1) {
         Node* firstMin = pq.top();
         pq.pop();
         Node* secondMin = pq.top();
@@ -50,7 +50,7 @@ void HaffmanTree::buildTree(std::vector<size_t>& statistic) {
 
 std::map<unsigned char, std::string> HaffmanTree::getDict() {
     std::map<unsigned char, std::string> dictionary;
-    getDict(root, "", dictionary);
+    getDict(root, "1", dictionary);
     return dictionary;
 }
 
@@ -74,6 +74,7 @@ unsigned char HaffmanTree::iterateSymbol(
     const std::vector<unsigned char> &bytes,
     size_t& i_bit
 ) {
+    ++i_bit;
     return iterateSymbol(root, bytes, i_bit);
 }
 
@@ -85,10 +86,11 @@ unsigned char HaffmanTree::iterateSymbol(
     size_t i = i_bit / (sizeof(unsigned char) * 8);
     size_t j = i_bit % (sizeof(unsigned char) * 8);
     size_t mask = 1 << (7 - j);
-    ++i_bit;
+
     if (now->byteValue != -1) {
         return now->byteValue;
     }
+    ++i_bit;
     if ((bytes[i] & mask) != mask) {
         return iterateSymbol(now->left, bytes, i_bit);
     } else {
