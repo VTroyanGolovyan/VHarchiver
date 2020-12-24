@@ -1,4 +1,4 @@
-# DeflateArchiver
+Archiver
 How to Build?
 
 1) cd build
